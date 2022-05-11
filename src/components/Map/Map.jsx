@@ -4,7 +4,7 @@ import { Typography, Paper, useMediaQuery } from "@mui/material";
 import LocationOutlineIcon from "@mui/icons-material/LocationOnOutlined";
 import useStyles from "./styles.js";
 
-const Map = ({ coords, setCoords, setBounds, places }) => {
+const Map = ({ coords, setCoords, setBounds, places,setChildClicked }) => {
   
   const isdesktop = useMediaQuery('(min-width:600px)');
   const classes = useStyles();
@@ -22,7 +22,7 @@ const Map = ({ coords, setCoords, setBounds, places }) => {
           setCoords({ lat: e.center.lat, lng: e.center.lng });
           setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
         }}
-        onChildClick={""}
+        onChildClick={(child) => setChildClicked(child)}
       >
         {places?.map((place, i) => (
           <div

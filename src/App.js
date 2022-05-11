@@ -8,15 +8,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getplacesData } from './api';
 const theme = createTheme();
 
-
-
-
-
 const  App =(props) =>{
   const[places,setPlaces] =useState([])
   const [coords, setCoords] = useState({});
   const [bounds, setBounds] = useState({});
-console.log(places)
+  const [childClicked, setChildClicked] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+//console.log(places)
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setCoords({ lat: latitude, lng: longitude });
@@ -24,13 +22,13 @@ console.log(places)
   }, []);
 
   useEffect(()=>{
-    console.log("coords",coords)
-    console.log("bounce",bounds)
+   
     getplacesData(bounds.sw,bounds.ne)
     .then((result)=>{
-      console.log(result)
+     // console.log(result)
      
      setPlaces(result.data.data)
+    
 
     })
 
@@ -44,7 +42,10 @@ console.log(places)
     <Header {...props}/>
     <Grid container spacing={3} style={{width:"100%"}}>
       <Grid item xs={12} md ={4}>
-      <List places={places}/>
+      <List places={places}
+      childClicked={childClicked}
+      
+      />
       </Grid>
       <Grid item xs={12} md ={8}>
        <Map 
@@ -52,6 +53,7 @@ console.log(places)
        setCoords={setCoords}
        coords={coords}
        places={places}
+       setChildClicked={setChildClicked}
        
       />
       </Grid>
